@@ -1,0 +1,30 @@
+#!/bin/bash
+# Increment or decrement the screen backlight (xbacklight not working)
+# Usage:
+# adjustBrightness +0.1 (increase brightness by 0.1 steps)
+# adjustBrightness -0.1 (decrease brightness by 0.1 steps)
+
+# == Setup ==
+# Install bc for arithmetic calculations
+output="eDP1" # get this output value from xrandr --verbose
+max_brightness=2
+
+input=$1
+first_char=${input:0:1}
+
+if [ $first_char == '+' ] || [ $first_char == '-' ]; then
+	current_brightness=$(xrandr --verbose | grep Brightness | awk '{print $NF}')
+	new_brightness=$(echo "$current_brightness $1" | bc)
+else
+	new_brightness=$input
+fi
+
+if [ $(bc <<< "$new_brightness > $max_brightness") -eq 1 ]; then
+	new_brightness=$max_brightness
+fi
+
+if [ $(bc <<< "$new_brightness < 0") -eq 1 ]; then
+	new_brightness=0
+fi
+
+xrandr --output $output --brightness $new_brightness

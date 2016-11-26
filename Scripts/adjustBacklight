@@ -1,0 +1,22 @@
+#!/bin/bash
+# Increment or decrement the screen backlight (xbacklight not working)
+# Usage:
+# adjustBacklight +10 (increase backlight by 10 steps)
+# adjustBacklight -10 (decrease backlight by 10 steps)
+
+# == Setup ==
+# Add the following line to "/etc/rc.local":
+# sudo chmod 666 /sys/class/backlight/intel_backlight/brightness
+
+basedir="/sys/class/backlight/intel_backlight/"
+current_brightness=$(cat $basedir"brightness")
+max_brightness=$(cat $basedir"max_brightness")
+new_brightness=$(($current_brightness $1))
+
+if [ $new_brightness -gt $max_brightness ]; then
+	new_brightness=$max_brightness
+fi
+if [ $new_brightness -lt 0 ]; then
+	new_brightness=0
+fi
+echo $new_brightness > $basedir"brightness"
