@@ -1,11 +1,11 @@
 #!/bin/bash
 
-google-chrome "$@"&
+/usr/bin/google-chrome "$@"&
 
 for i in 1 2 3
 do
 	sleep 1 
-	pid_to_kill=`ps aux | grep 'S[+ ].*/opt/google/chrome/chrome$' | awk '{print $2}'`
+	pid_to_kill=`ps aux | grep 'S[+ ].*chrome$' | awk '{print $2}'`
 	if [ ! -z "$pid_to_kill" ]; then
 		echo "Duplicate process detected. Stopping the duplicate."
 		echo $pid_to_kill
