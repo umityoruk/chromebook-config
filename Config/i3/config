@@ -194,6 +194,8 @@ exec --no-startup-id synclient VertEdgeScroll=0
 # Turn on horizontal scrolling
 #exec --no-startup-id synclient HorizTwoFingerScroll=1
 exec --no-startup-id synclient HorizEdgeScroll=1
+# Reduce right button area
+exec --no-startup-id synclient RightButtonAreaLeft=2410
 
 # Set background iamge
 exec --no-startup-id feh --bg-scale ~/Pictures/Wallpapers/StreamofLight_3200x2000.png
